@@ -128,19 +128,6 @@ class ShortURL
       s.response_block = lambda { |res| "http://moourl.com/" + res["location"].match(/\?moo=/).post_match }
     },
 
-    :bitly => Service.new("api-ssl.bitly.com") { |s|
-      s.method = :get
-      s.port   = 443
-      s.ssl    = true
-      s.action = "/v3/shorten/"
-      require 'yaml'
-      creds = YAML.load(File.read(File.join(ENV["HOME"],"/.shorturl")))['bitly']
-      username = creds['username'] 
-      key = creds['key'] 
-      s.field  = "format=txt&login=#{username}&apiKey=#{key}&longUrl"
-      s.block  = lambda { |body| body }
-    },
-
     :ur1 => Service.new("ur1.ca") { |s|
       s.method = :post
       s.action = "/"
